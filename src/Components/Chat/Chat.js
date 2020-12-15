@@ -9,7 +9,9 @@ function Chat() {
     <>
       <h1>this is the chat page</h1>
       {/*for each conversation, render Link component that redirects user to the conversation component (while passing conversation id as props)*/}
-      <Link to="/conversation"><button>Go to conversation component</button></Link>
+      <Link to="/conversation"><button>Conversation</button></Link>
+      <br /><br />
+      <Link to="/user"><button>User Profile</button></Link> 
     </>
   );
 }

@@ -10,6 +10,7 @@ import Login from '../Login/Login';
 import UserProfile from '../UserProfile/UserProfile';
 import Chat from '../Chat/Chat';
 import Conversation from '../Conversation/Conversation';
+import Search from '../Search/Search';
 //import NavBar from '../NavBar/NavBar';
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path="/conversation"> {/*will need to update path with params. ex/ path="/conversation/:id">*/}
               <Conversation />
+            </Route>
+            <Route path="/search"> {/*will need to update path with params. ex/ path="/user/:id">*/}
+              <Search />
             </Route>
           </Switch>
         </div>

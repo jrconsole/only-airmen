@@ -5,7 +5,7 @@ function NewComp() {
   return (
     <>
       <h1>this is the login page</h1>
-      <Link to="/user"><button>Go to user profile component</button></Link>
+      <Link to="/user"><button>User Profile</button></Link>
     </>
   );
 }

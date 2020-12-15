@@ -5,9 +5,11 @@ function UserProfile() {
   return (
     <>
       <h1>this is the user profile</h1>
-      <Link to="/"><button>Go to login component</button></Link>
+      <Link to="/"><button>Login</button></Link>
       <br /><br />
-      <Link to="/conversations"><button>Go to chat component</button></Link> 
+      <Link to="/conversations"><button>Chat</button></Link> 
+      <br /><br />
+      <Link to="/search"><button>Search</button></Link> 
     </>
   );
 }

@@ -9,7 +9,7 @@ function Conversation() {
     <>
       <h1>this is the conversation page</h1>
  
-      <Link to="/conversations"><button>Go to chat component</button></Link>
+      <Link to="/conversations"><button>Chat</button></Link>
     </>
   );
 }
