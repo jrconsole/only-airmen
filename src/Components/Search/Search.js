@@ -2,26 +2,28 @@ import './Search.css';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 
-const userList = [
-  {id: 1, name: "john"},
-  {id:2, name: "sarah"}
-];
 
 function Search() {
 
   const [users, setUsers] = useState([]);
 
-  const getUsers =  () => {
-    const returnedUsers = userList; //fetch users from server
+  const getUsers = async () => {
+    const response = await fetch('http://localhost:8080/users'); //fetch users from server
+    const returnedUsers = await response.json();
 
     setUsers(returnedUsers);
   }
 
-  useEffect(getUsers, []);
+  useEffect(() => getUsers(), []);
 
   const renderUsers = () => {
     return users.map(user => {
-      return <Link to="/user" key={user.id}>{user.name}</Link>;
+      return (
+        <>
+          <Link to="/user" key={user.user_id}>{user.username}</Link>
+          <br /><br />
+        </>
+      );
     })
   }
 
