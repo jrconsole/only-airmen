@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 function Search() {
 
   const [users, setUsers] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [hobbies, setHobbies] = useState([]);
 
   const getUsers = async () => {
     const response = await fetch('http://localhost:8080/users'); //fetch users from server
@@ -14,7 +16,25 @@ function Search() {
     setUsers(returnedUsers);
   }
 
-  useEffect(() => getUsers(), []);
+  const getLocations = async () => {
+    const response = await fetch('http://localhost:8080/locations');
+    const returnedLocations = await response.json();
+
+    setLocations(returnedLocations);
+  }
+
+  const getHobbies = async () => {
+    const response = await fetch('http://localhost:8080/hobbies');
+    const returnedHobbies = await response.json();
+
+    setHobbies(returnedHobbies);
+  }
+
+  useEffect(() => {
+    getUsers();
+    getLocations();
+    getHobbies();
+  }, []);
 
   const renderUsers = () => {
     return users.map(user => {
