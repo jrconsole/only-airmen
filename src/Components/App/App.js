@@ -2,8 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import './App.css';
 import Login from '../Login/Login';
@@ -34,7 +33,7 @@ function App() {
             <Route path="/conversation"> {/*will need to update path with params. ex/ path="/conversation/:id">*/}
               <Conversation />
             </Route>
-            <Route path="/search"> {/*will need to update path with params. ex/ path="/user/:id">*/}
+            <Route path="/search"> 
               <Search />
             </Route>
           </Switch>
