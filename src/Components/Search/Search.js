@@ -123,7 +123,7 @@ function Search() {
 
   return (
     <>
-      <h1>this is the Search page</h1>
+      <h1>Search for your Airman</h1>
       {renderLocationSelect()}
       {renderHobbySelect()}
       <br/><br />
