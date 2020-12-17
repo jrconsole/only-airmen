@@ -2,18 +2,19 @@ import './UserProfile.css';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
+import { useParams } from 'react-router-dom';
 
 function UserProfile() {
+
+  let { id } = useParams();
 
   const cookies = new Cookies();
   const sessionInfo = cookies.get('sessionInfo');
   const sessionInfoSplit = sessionInfo.split("_");
   const userID = sessionInfoSplit[0];
 
-  const searcherUserID = 1;
-
   let ownProfile;
-  if(searcherUserID == userID) {
+  if(id == userID) {
     ownProfile = true;
   } else {
     ownProfile = false;
@@ -40,7 +41,7 @@ function UserProfile() {
   }, []);
 
   const fetchHobbies = async () => {
-    const response = await fetch(`http://localhost:8082/hobbies/${userID}`);
+    const response = await fetch(`http://localhost:8082/hobbies/${id}`);
     const jsonResponse = await response.json();
 
     setHobbies(jsonResponse);
@@ -71,7 +72,7 @@ function UserProfile() {
       username: newUsername
     }
 
-    await fetch(`http://localhost:8082/users/${userID}`,
+    await fetch(`http://localhost:8082/users/${id}`,
                   {
                     method: "PATCH",
                     mode: "cors",
@@ -91,7 +92,7 @@ function UserProfile() {
       age: newAge
     }
 
-    await fetch(`http://localhost:8082/users/${userID}`,
+    await fetch(`http://localhost:8082/users/${id}`,
                   {
                     method: "PATCH",
                     mode: "cors",
@@ -111,7 +112,7 @@ function UserProfile() {
       location_id: newLocation
     }
 
-    await fetch(`http://localhost:8082/users/${userID}`,
+    await fetch(`http://localhost:8082/users/${id}`,
                   {
                     method: "PATCH",
                     mode: "cors",
@@ -129,7 +130,7 @@ function UserProfile() {
   const handleNewHobby = async () => {
     const data = {
       hobby_id: newHobby,
-      user_id: userID
+      user_id: id
     }
 
     await fetch(`http://localhost:8082/hobbies`,
@@ -147,10 +148,10 @@ function UserProfile() {
     setNewHobby("");
   }
 
-  const handleDeleteHobby = async (id) => {
+  const handleDeleteHobby = async (idInput) => {
     const data = {
-      hobby_id: id,
-      user_id: userID
+      hobby_id: idInput,
+      user_id: id
     }
 
     await fetch(`http://localhost:8082/hobbies`,
@@ -167,7 +168,7 @@ function UserProfile() {
   }
 
   async function fetchProfile() {
-    const response = await fetch(`http://localhost:8082/users/${userID}`);
+    const response = await fetch(`http://localhost:8082/users/${id}`);
     const jsonResponse = await response.json();
 
     setProfile(jsonResponse);
