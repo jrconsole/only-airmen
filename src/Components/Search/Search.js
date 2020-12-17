@@ -8,6 +8,7 @@ function Search() {
   const [users, setUsers] = useState([]);
   const [locations, setLocations] = useState([]);
   const [hobbies, setHobbies] = useState([]);
+  const [userHobbies, setUserHobbies] = useState([]);
 
   const [currUsers, setCurrUsers] = useState([]);
   const [activeFilters, setActiveFilters] = useState({ location: null, hobbies: [] });
@@ -34,30 +35,57 @@ function Search() {
     setHobbies(returnedHobbies);
   }
 
+  const getUserHobbies = async () => {
+    const response = await fetch('http://localhost:8080/user-hobbies');
+    const returnedUserHobbies = await response.json();
+
+    setUserHobbies(returnedUserHobbies);
+  }
+
   useEffect(() => {
     getUsers();
     getLocations();
     getHobbies();
+    getUserHobbies();
   }, []);
 
   const filterUsers = () => {
-    const filteredUsers = users.filter(user => {
-      return user.location_id === Number(activeFilters.location);
-    });
+    let usersByLocation;
+    if (activeFilters.location === 0) {
+      usersByLocation = users;
+    } else {
+      usersByLocation = users.filter(user => {
+        return user.location_id === Number(activeFilters.location);
+      });
+    }
+
+    let filteredUsers;
+    if (activeFilters.hobbies.length === 0) {
+      filteredUsers = usersByLocation;
+    } else {
+      filteredUsers = usersByLocation.filter(user => {
+        let userHasSelectedHobbies = false;
+        const hobbyList = userHobbies.filter(userHobby => userHobby.user_id === user.user_id)
+                                      .map(userHobby => userHobby.hobby_id);
+        activeFilters.hobbies.forEach(hobby => {
+          if (hobbyList.includes(hobby)) {
+            userHasSelectedHobbies = true;
+          }
+        })
+
+        return userHasSelectedHobbies;
+      })
+    }
 
     setCurrUsers(filteredUsers);
   }
 
   const filterByLocation = (selectedLocation) => {
-    if (Number(selectedLocation) === 0) {
-      setCurrUsers(users);
-    } else {
-      const state = activeFilters;
-      state.location = selectedLocation;
-      setActiveFilters(state);
+    const state = activeFilters;
+    state.location = selectedLocation;
+    setActiveFilters(state);
 
-      filterUsers();
-    }
+    filterUsers();
   }
 
   const renderLocationSelect = () => {
@@ -69,6 +97,17 @@ function Search() {
         })}
       </select>
     );
+  }
+
+  const renderHobbySelect = () => {
+    // return (
+    //   <select name="hobbies" id="hobbies"  onChange={(e) => filterByHobbies(e.target.value)}>
+    //     <option value={0}>All</option>
+    //     {locations.map(location => {
+    //       return <option value={location.location_id}>{location.name}</option>
+    //     })}
+    //   </select>
+    // );
   }
 
   const renderUsers = () => {
@@ -86,6 +125,7 @@ function Search() {
     <>
       <h1>this is the Search page</h1>
       {renderLocationSelect()}
+      {renderHobbySelect()}
       <br/><br />
       {renderUsers()}
       <br /><br />
