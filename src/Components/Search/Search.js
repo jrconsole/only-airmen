@@ -14,7 +14,7 @@ function Search() {
   const [activeFilters, setActiveFilters] = useState({ location: null, hobbies: [] });
 
   const getUsers = async () => {
-    const response = await fetch('http://localhost:8080/users'); //fetch users from server
+    const response = await fetch('http://localhost:8081/users'); //fetch users from server
     const returnedUsers = await response.json();
 
     setUsers(returnedUsers);
@@ -22,21 +22,21 @@ function Search() {
   }
 
   const getLocations = async () => {
-    const response = await fetch('http://localhost:8080/locations');
+    const response = await fetch('http://localhost:8081/locations');
     const returnedLocations = await response.json();
 
     setLocations(returnedLocations);
   }
 
   const getHobbies = async () => {
-    const response = await fetch('http://localhost:8080/hobbies');
+    const response = await fetch('http://localhost:8081/hobbies');
     const returnedHobbies = await response.json();
 
     setHobbies(returnedHobbies);
   }
 
   const getUserHobbies = async () => {
-    const response = await fetch('http://localhost:8080/user-hobbies');
+    const response = await fetch('http://localhost:8081/user-hobbies');
     const returnedUserHobbies = await response.json();
 
     setUserHobbies(returnedUserHobbies);
@@ -84,7 +84,6 @@ function Search() {
     const state = activeFilters;
     state.location = selectedLocation;
     setActiveFilters(state);
-    console.log(activeFilters);
 
     filterUsers();
   }
