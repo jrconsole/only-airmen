@@ -4,6 +4,7 @@ import { useState, useEffect, Integer } from 'react';
 import Cookies from 'universal-cookie';
 
 function Chat() {
+  //Renders Chat pages, with all the chats
 
   const cookies = new Cookies();
   const sessionInfo = cookies.get('sessionInfo');
@@ -16,27 +17,27 @@ function Chat() {
   const [addToLog, userInput] = useInput({ type: "text" });
   const [value, setValue] = useState();
 
-  const getConversations = async () => {
-    const response = await fetch('http://localhost:8080/conversations/user/' + user_id); //fetch the user's conversations from server
-    const returnedConversations = await response.json();
-    setConversations(returnedConversations);
-  }
+  useEffect(() => {
+    getConversations();
+    getUsers();
+  }, []);
 
   const getUsers = async () => {
     const response = await fetch('http://localhost:8080/users/all'); //fetch the users from server
     const returnedUsers = await response.json();
     setUsers(returnedUsers);
-    returnedUsers.forEach(user =>{
+    returnedUsers.forEach(user =>{ 
       if(user_id == user.user_id){
         setUsername(user.username)
       }
     })
   }
 
-  useEffect(() => {
-    getConversations();
-    getUsers();
-  }, []);
+  const getConversations = async () => {
+    const response = await fetch('http://localhost:8080/conversations/user/' + user_id); //fetch the user's conversations from server
+    const returnedConversations = await response.json();
+    setConversations(returnedConversations);
+  }
 
   const renderConversations = () => {
     return conversations.map(conversation => {
@@ -60,23 +61,17 @@ function Chat() {
     <>
       <h3>Start a new chat</h3>
       <label>To:</label>
-      <select
-        value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
-      >
-      <option value={null}>
-        {""}
-      </option>
-      {users.map(user => {
-        if(user.user_id != user_id && !existingReceiversIds.includes(user.user_id)){
-          return (
-            <option key={user.user_id} value={user.user_id}>
-              {user.username}
-            </option>
-          )
-        }
-      }
-      )}
+      <select value={value} onChange={(e) => setValue(e.currentTarget.value)}>
+        <option value={null}> {""} </option>
+        {users.map(user => {
+          if(user.user_id != user_id && !existingReceiversIds.includes(user.user_id)){
+            return (
+              <option key={user.user_id} value={user.user_id}>
+                {user.username}
+              </option>
+            )
+          }
+        })}
       </select> 
       <label>Message:</label>
       {userInput}
@@ -92,17 +87,21 @@ function Chat() {
  }
 
  const handleStartNewChat = async (e) =>{
-    const msg = `${username}: ${addToLog}\n`
-    const response = await fetch(`http://localhost:8080/conversations`, {
-      method: 'POST',
-      headers: { 'Content-Type':  'application/json' },
-      body: JSON.stringify({
-              "my_user_id": user_id,
-              "receiver_user_id": value, 
-              "chat_log": msg, 
-            })
-    }); 
-    getConversations();
+   if(value == ""){
+     alert("Please choose a recipient")
+   } else {
+      const msg = `${username}: ${addToLog}\n`
+      const response = await fetch(`http://localhost:8080/conversations`, {
+        method: 'POST',
+        headers: { 'Content-Type':  'application/json' },
+        body: JSON.stringify({
+                "my_user_id": user_id,
+                "receiver_user_id": value, 
+                "chat_log": msg, 
+              })
+      }); 
+      getConversations();
+   }
  }
 
   return (
