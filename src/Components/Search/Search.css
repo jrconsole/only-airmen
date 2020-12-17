@@ -28,6 +28,19 @@
   color: #61dafb;
 }
 
+.user-card {
+  display: inline-block;
+  max-width: 200px;
+  margin: 16px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 8px -4px #000000;
+}
+
+.filter-select {
+  margin-left: 16px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

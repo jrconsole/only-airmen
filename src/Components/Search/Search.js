@@ -90,8 +90,12 @@ function Search() {
 
   const renderLocationSelect = () => {
     return (
-      <select name="locations" id="locations"  onChange={(e) => filterByLocation(e.target.value)}>
-        <option value={0}>All</option>
+      <select 
+        name="locations" 
+        id="locations"  
+        className="filter-select"
+        onChange={(e) => filterByLocation(e.target.value)}>
+        <option value={0}>All Locations</option>
         {locations.map(location => {
           return <option value={location.location_id}>{location.name}</option>
         })}
@@ -114,8 +118,14 @@ function Search() {
     return currUsers.map(user => {
       return (
         <>
-          <Link to={`/user/${user.user_id}`} key={user.user_id}>{user.username}</Link>
-          <br /><br />
+          <Link to={`/user/${user.user_id}`} key={user.user_id}>
+            
+            <div className="user-card">
+              {user.username}
+            </div>
+
+          </Link>
+
         </>
       );
     })
