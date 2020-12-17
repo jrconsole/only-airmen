@@ -55,6 +55,7 @@ function Chat() {
   }
 
  const renderStartNewChat = () => {
+   var existingReceiversIds = conversations.map(c => c.receiver_user_id);
    return (
     <>
       <h3>Start a new chat</h3>
@@ -67,7 +68,7 @@ function Chat() {
         {""}
       </option>
       {users.map(user => {
-        if(user.user_id != user_id){
+        if(user.user_id != user_id && !existingReceiversIds.includes(user.user_id)){
           return (
             <option key={user.user_id} value={user.user_id}>
               {user.username}
@@ -111,6 +112,9 @@ function Chat() {
       <br />
       {renderStartNewChat()}
       <br/><br />
+      <Link to="/search"><button>Search</button></Link>
+      <br/><br />
+      <Link to={`/user/${user_id}`}><button>My Profile</button></Link>
     </>
   );
 }
