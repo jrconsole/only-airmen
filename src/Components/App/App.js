@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Login from '../Login/Login';
+import Registration from '../Registration/Registration';
 import UserProfile from '../UserProfile/UserProfile';
 import Chat from '../Chat/Chat';
 import Conversation from '../Conversation/Conversation';
@@ -24,6 +25,10 @@ function App() {
             <Route exact path="/">
               {/*insert logic for login status. ex/ if logged in, render user profile*/} 
               <Login  />
+            </Route>
+            <Route exact path="/registration">
+              {/*insert logic for login status. ex/ if logged in, render user profile*/} 
+              <Registration />
             </Route>
             <Route path="/user"> {/*will need to update path with params. ex/ path="/user/:id">*/}
               <UserProfile />

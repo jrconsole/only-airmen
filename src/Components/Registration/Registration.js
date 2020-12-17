@@ -1,9 +1,10 @@
-import './Login.css';
+import './Registration.css';
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+
+
 
 var PORT = 8080
-function NewComp() {
+function Registration() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login = async (e) => {
@@ -29,7 +30,6 @@ function NewComp() {
         <>
         <h1>Login</h1>
               <div>
-                  <Link to="/registration">Registration</Link>
                 <form onSubmit={login}>
                     <label>
                     Username:
@@ -54,4 +54,4 @@ function NewComp() {
 
 
 
-export default NewComp;
+export default Registration;
