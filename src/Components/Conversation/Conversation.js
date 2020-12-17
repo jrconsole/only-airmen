@@ -1,6 +1,8 @@
 import './Conversation.css';
 import { Link, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane, faUserCircle, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Conversation() {
 
@@ -40,9 +42,10 @@ function Conversation() {
   const renderSendMessage = () => {
     return (
       <>
-      <h3>Send message</h3>
       {userInput}
-      <button onClick={handleSendMsg}>Send</button>
+      <span onClick={handleSendMsg}>
+        <FontAwesomeIcon icon={faPaperPlane} />
+      </span>
       </>
     )
   }
@@ -65,13 +68,13 @@ function Conversation() {
 
   return (
     <>
-      <h1>Messages with: {receiver_username}</h1>
-      <Link to={`/user/${receiver_user_id}`}><button>{receiver_username}'s Profile</button></Link> 
+      <Link to="/conversations"><FontAwesomeIcon icon={faArrowLeft}/></Link>
+      <Link to={`/user/${receiver_user_id}`}><FontAwesomeIcon icon={faUserCircle} /></Link>
+      <b>{receiver_username}</b>
       <br/><br/>
       {renderChatLog()}
       {renderSendMessage()}
       <br/><br/>
-      <Link to="/conversations"><button>Return to Chats</button></Link>
     </>
   );
 }

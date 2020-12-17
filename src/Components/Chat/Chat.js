@@ -2,6 +2,8 @@ import './Chat.css';
 import { Link } from "react-router-dom";
 import { useState, useEffect, Integer } from 'react';
 import Cookies from 'universal-cookie';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane , faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 function Chat() {
   //Renders Chat pages, with all the chats
@@ -39,20 +41,39 @@ function Chat() {
     setConversations(returnedConversations);
   }
 
+  const displayLastMsg = (chat_log) => {
+    var msgs = chat_log.split('\n');
+    var msg= msgs[msgs.length-2];
+    if(msg.includes(username)){
+      msg=msg.replace(username, "me");
+    }
+    return (<>{msg}</>)
+  }
+
   const renderConversations = () => {
-    return conversations.map(conversation => {
-      return (
-        <>
-           <Link to={{
-              pathname: "/conversation",
-              state: { 
-                conversation: conversation
-              }
-            }} key={conversation.receiver_user_id}>{conversation.receiver_username}</Link>
-           <br/>
-        </>
-      );
-    })
+    return (
+      <table>
+        {
+          conversations.map(conversation => {
+            return (
+                  <tr>
+                    <td>
+                      <Link to={`/user/${conversation.receiver_user_id}`}><FontAwesomeIcon icon={faUserCircle} /></Link>
+                    </td>
+                    <td>
+                      <Link to={{
+                                pathname: "/conversation",
+                                state: { conversation: conversation }
+                              }} 
+                            key={conversation.receiver_user_id}>{conversation.receiver_username}</Link>
+                      <br/>
+                      {displayLastMsg(conversation.chat_log)}
+                    </td>
+                  </tr>
+            );})
+        }
+      </table>
+    )
   }
 
  const renderStartNewChat = () => {
@@ -75,7 +96,9 @@ function Chat() {
       </select> 
       <label>Message:</label>
       {userInput}
-      <button onClick={handleStartNewChat}>Send</button>
+      <span onClick={handleStartNewChat}>
+        <FontAwesomeIcon icon={faPaperPlane} />
+      </span>
     </>
    )
  }
