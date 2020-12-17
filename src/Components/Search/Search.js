@@ -114,7 +114,7 @@ function Search() {
     return currUsers.map(user => {
       return (
         <>
-          <Link to="/user" key={user.user_id}>{user.username}</Link>
+          <Link to={`/user/${user.user_id}`} key={user.user_id}>{user.username}</Link>
           <br /><br />
         </>
       );

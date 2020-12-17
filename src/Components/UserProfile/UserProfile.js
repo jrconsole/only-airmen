@@ -1,7 +1,10 @@
 import './UserProfile.css';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function UserProfile() {
+
+  const { id } = useParams();
+  
   return (
     <>
       <h1>this is the user profile</h1>
