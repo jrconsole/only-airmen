@@ -3,34 +3,25 @@ import React, { useState } from 'react';
 
 
 
-var PORT = 8080
+var PORT = 8084
 function Registration() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const login = async (e) => {
-        e.preventDefault()
-        const studentResponse = await fetch(`http://localhost:${PORT}/auth/login`, 
-                                            {method: 'POST',  body: JSON.stringify({username:username,password:password}),
-                                            headers: {
-                                            'Content-Type': 'application/json'
-                                            },
-                                            credentials: 'include'     
-                                            })
+    let ages = []
+    for (let i = 18; i < 130; i++) {
+        ages.push(i);
     }
 
-    const logout = async (e) => {
+    let locations = {Kirtland: 1, Edwards: 2, Scranton: 3, Moscow: 4}
+    const register = (e) => {
         e.preventDefault()
-        await fetch(`http://localhost:${PORT}/auth/logout`, 
-                    {method: 'GET',
-                    credentials: 'include'     
-                    })
     }
 
     return (
         <>
-        <h1>Login</h1>
+        <h1>Registration</h1>
               <div>
-                <form onSubmit={login}>
+              <form onSubmit={register}>
                     <label>
                     Username:
                     <input type="text" name="username" onChange={(e)=>setUsername(e.target.value)} />
@@ -41,14 +32,28 @@ function Registration() {
                     <input type="password" name="password" onChange={(e)=>setPassword(e.target.value)} />
                      </label>
                      <br/>
+                     <label>
+                    Age
+                    <select>
+                        {ages.map((i) => (<option value={i}>{i}</option>))}
+                    </select>
+                     </label>
+
+                     <br/>
                     <input type="submit" value="Submit"/>
                 </form>
                 <br/>
-                <button onClick={logout}>Logout</button>
               </div>
         </>
     );
 }
+
+/*                     <label>
+                        Location
+                        <select>
+                            {locations.map((i) => (<option value={locations[i]}>{i}</option>))}
+                        </select>
+                     </label> */
 
 
 
