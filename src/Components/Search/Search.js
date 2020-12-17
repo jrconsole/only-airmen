@@ -51,7 +51,7 @@ function Search() {
 
   const filterUsers = () => {
     let usersByLocation;
-    if (activeFilters.location === 0) {
+    if (Number(activeFilters.location) === 0) {
       usersByLocation = users;
     } else {
       usersByLocation = users.filter(user => {
@@ -84,6 +84,7 @@ function Search() {
     const state = activeFilters;
     state.location = selectedLocation;
     setActiveFilters(state);
+    console.log(activeFilters);
 
     filterUsers();
   }
