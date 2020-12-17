@@ -1,12 +1,13 @@
 import './Login.css';
-import { Link } from "react-router-dom";
 import React, { useState } from 'react';
+import Cookies from 'universal-cookie';
+
 var PORT = 8080
 function NewComp() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const postCreds = async (e) => {
-        e.preventDefault();
+    const login = async (e) => {
+        e.preventDefault()
         const studentResponse = await fetch(`http://localhost:${PORT}/auth/login`, 
                                             {method: 'POST',  body: JSON.stringify({username:username,password:password}),
                                             headers: {
@@ -16,16 +17,19 @@ function NewComp() {
                                             })
     }
 
-    const logout = async(e) => {
-    
-
+    const logout = async (e) => {
+        e.preventDefault()
+        await fetch(`http://localhost:${PORT}/auth/logout`, 
+                    {method: 'GET',
+                    credentials: 'include'     
+                    })
     }
 
     return (
         <>
         <h1>Login</h1>
               <div>
-                <form onSubmit={postCreds}>
+                <form onSubmit={login}>
                     <label>
                     Username:
                     <input type="text" name="username" onChange={(e)=>setUsername(e.target.value)} />
@@ -33,10 +37,13 @@ function NewComp() {
                     <br/>
                     <label>
                     Password:
-                    <input type="text" name="password" onChange={(e)=>setPassword(e.target.value)} />
+                    <input type="password" name="password" onChange={(e)=>setPassword(e.target.value)} />
                      </label>
+                     <br/>
                     <input type="submit" value="Submit"/>
-                    </form>
+                </form>
+                <br/>
+                <button onClick={logout}>Logout</button>
               </div>
         </>
     );
