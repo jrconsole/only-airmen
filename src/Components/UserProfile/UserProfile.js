@@ -31,7 +31,7 @@ function UserProfile() {
   }, []);
 
   const fetchHobbies = async () => {
-    const response = await fetch(`http://localhost:8080/hobbies/${userID}`);
+    const response = await fetch(`http://localhost:8082/hobbies/${userID}`);
     const jsonResponse = await response.json();
 
     setHobbies(jsonResponse);
@@ -62,7 +62,7 @@ function UserProfile() {
       username: newUsername
     }
 
-    await fetch(`http://localhost:8080/users/${userID}`,
+    await fetch(`http://localhost:8082/users/${userID}`,
                   {
                     method: "PATCH",
                     mode: "cors",
@@ -82,7 +82,7 @@ function UserProfile() {
       age: newAge
     }
 
-    await fetch(`http://localhost:8080/users/${userID}`,
+    await fetch(`http://localhost:8082/users/${userID}`,
                   {
                     method: "PATCH",
                     mode: "cors",
@@ -102,7 +102,7 @@ function UserProfile() {
       location_id: newLocation
     }
 
-    await fetch(`http://localhost:8080/users/${userID}`,
+    await fetch(`http://localhost:8082/users/${userID}`,
                   {
                     method: "PATCH",
                     mode: "cors",
@@ -123,7 +123,7 @@ function UserProfile() {
       user_id: userID
     }
 
-    await fetch(`http://localhost:8080/hobbies`,
+    await fetch(`http://localhost:8082/hobbies`,
                   {
                     method: "POST",
                     mode: "cors",
@@ -144,7 +144,7 @@ function UserProfile() {
       user_id: userID
     }
 
-    await fetch(`http://localhost:8080/hobbies`,
+    await fetch(`http://localhost:8082/hobbies`,
                   {
                     method: "DELETE",
                     mode: "cors",
@@ -158,7 +158,7 @@ function UserProfile() {
   }
 
   async function fetchProfile() {
-    const response = await fetch(`http://localhost:8080/users/${userID}`);
+    const response = await fetch(`http://localhost:8082/users/${userID}`);
     const jsonResponse = await response.json();
 
     setProfile(jsonResponse);
@@ -168,7 +168,7 @@ function UserProfile() {
 
   useEffect(() => {
     async function fetchHobbyMap() {
-      const response = await fetch(`http://localhost:8080/hobbies`);
+      const response = await fetch(`http://localhost:8082/hobbies`);
       const jsonResponse = await response.json();
 
       setHobbyMap(jsonResponse);
@@ -178,7 +178,7 @@ function UserProfile() {
 
   useEffect(() => {
     async function fetchLocationMap() {
-      const response = await fetch(`http://localhost:8080/locations`);
+      const response = await fetch(`http://localhost:8082/locations`);
       const jsonResponse = await response.json();
 
       setLocationMap(jsonResponse);
