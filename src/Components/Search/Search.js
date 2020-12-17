@@ -1,6 +1,8 @@
 import './Search.css';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 
 function Search() {
@@ -80,10 +82,23 @@ function Search() {
     setCurrUsers(filteredUsers);
   }
 
+  const filterByHobby = (e) => {
+    const filterIndex = activeFilters.hobbies.indexOf(Number(e.target.value));
+    let newFilters = activeFilters;
+    if(filterIndex > -1) {
+      newFilters.hobbies.splice(filterIndex, 1);
+    } else {
+      newFilters.hobbies.push(Number(e.target.value));
+    }
+
+    setActiveFilters(newFilters);
+    filterUsers();
+  }
+
   const filterByLocation = (selectedLocation) => {
-    const state = activeFilters;
-    state.location = selectedLocation;
-    setActiveFilters(state);
+    const newFilters = activeFilters;
+    newFilters.location = selectedLocation;
+    setActiveFilters(newFilters);
 
     filterUsers();
   }
@@ -104,14 +119,25 @@ function Search() {
   }
 
   const renderHobbySelect = () => {
-    // return (
-    //   <select name="hobbies" id="hobbies"  onChange={(e) => filterByHobbies(e.target.value)}>
-    //     <option value={0}>All</option>
-    //     {locations.map(location => {
-    //       return <option value={location.location_id}>{location.name}</option>
-    //     })}
-    //   </select>
-    // );
+    return (
+      hobbies.map(hobby => {
+        return (
+          <>
+            <FormControlLabel
+              key={hobby.hobby_id_id}
+              control={
+                <Checkbox
+                  onChange={filterByHobby}
+                  value={hobby.hobby_id_id}
+                  color="primary"
+                />
+              }
+              label={hobby.name}
+            />
+          </>
+        )
+      })
+    );
   }
 
   const renderUsers = () => {
@@ -138,8 +164,6 @@ function Search() {
       {renderHobbySelect()}
       <br/><br />
       {renderUsers()}
-      <br /><br />
-      <Link to="/user"><button>User Profile</button></Link>
       <br /><br />
       <Link to="/conversations"><button>Chat</button></Link> 
     </>
