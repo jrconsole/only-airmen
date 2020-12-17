@@ -10,6 +10,15 @@ function UserProfile() {
   const sessionInfoSplit = sessionInfo.split("_");
   const userID = sessionInfoSplit[0];
 
+  const searcherUserID = 1;
+
+  let ownProfile;
+  if(searcherUserID == userID) {
+    ownProfile = true;
+  } else {
+    ownProfile = false;
+  }
+
   const [profile, setProfile] = useState({});
   const [hobbies, setHobbies] = useState([]);
   const [newHobby, setNewHobby] = useState("");
@@ -190,7 +199,13 @@ function UserProfile() {
 
   const hobbiesList = hobbies.map(hobby => {
     return (
-        <li>{hobby.name}<button type="button" onClick={() => handleDeleteHobby(hobby.hobbyID)}>Delete</button></li>
+        <li>{hobby.name} <button type="button" onClick={() => handleDeleteHobby(hobby.hobbyID)}>Delete</button></li>
+    )
+  })
+
+  const hobbiesListReadOnly = hobbies.map(hobby => {
+    return (
+        <li>{hobby.name}</li>
     )
   })
 
@@ -206,47 +221,63 @@ function UserProfile() {
     )
   })
 
+  let editBar = "";
+  if(ownProfile === true) {
+    editBar = (
+    <tr>
+      <td></td>
+      <td>
+        <input type="text" placeholder="Enter New Username" onChange={handleNewUsernameChange} value={newUsername}></input>
+        <button onClick={handleUpdateUsername}>Update</button>
+      </td>
+      <td>
+        <input type="text" placeholder="Enter New Age" onChange={handleNewAgeChange} value={newAge}></input>
+        <button onClick={handleUpdateAge}>Update</button>
+      </td>
+      <td>
+        <select placeholder="Select Location" onChange={handleNewLocationChange} value={newLocation}>
+          <option value = ""></option>
+            {locationSelect}
+        </select>
+        <button onClick={handleUpdateLocation}>Update</button>
+      </td>
+    </tr>
+  )}
+
+  let addHobbyBar = "";
+  if(ownProfile) {
+    addHobbyBar = (
+      <div>
+        <select placeholder="Select Hobby" onChange={handleNewHobbyChange} value={newHobby}>
+          <option value = ""></option>
+          {hobbySelect}
+        </select>
+        <button onClick={handleNewHobby}>Add Hobby</button>
+      </div>
+    )}
+
   return (
     <>
       <h2>Welcome To {profile.username}'s Profile!</h2>
       <table>
         <th>Picture</th><th>Username</th><th>Age</th><th>Location</th>
+        <tbody>
         <tr>
-          <td><img src={url}/></td>
+          <td><img src={url} alt=""/></td>
           <td>{profile.username}</td>
           <td>{profile.age}</td>
           <td>{profile.location}</td>
         </tr>
-        <tr>
-          <td></td>
-          <td>
-            <input type="text" placeholder="Update" onChange={handleNewUsernameChange} value={newUsername}></input>
-            <button onClick={handleUpdateUsername}>Update</button>
-          </td>
-          <td>
-            <input type="text" placeholder="Update" onChange={handleNewAgeChange} value={newAge}></input>
-            <button onClick={handleUpdateAge}>Update</button>
-          </td>
-          <td>
-            <select placeholder="Select Location" onChange={handleNewLocationChange} value={newLocation}>
-              <option value = ""></option>
-                {locationSelect}
-            </select>
-            <button onClick={handleUpdateLocation}>Update</button>
-          </td>
-        </tr>
+        {editBar}
+        </tbody>
       </table>
 
       <h4>Here are {profile.username}'s Hobbies</h4>
       <ul>
-        {hobbiesList}
+        {ownProfile ? hobbiesList : hobbiesListReadOnly}
       </ul>
 
-      <select placeholder="Select Hobby" onChange={handleNewHobbyChange} value={newHobby}>
-        <option value = ""></option>
-        {hobbySelect}
-      </select>
-      <button onClick={handleNewHobby}>Add Hobby</button>
+      {addHobbyBar}
       
       <br/><br/><br/><br/>
 
