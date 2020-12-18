@@ -30,7 +30,7 @@ function App() {
               {/*insert logic for login status. ex/ if logged in, render user profile*/} 
               <Registration />
             </Route>
-            <Route path="/user"> {/*will need to update path with params. ex/ path="/user/:id">*/}
+            <Route path="/user/:id"> {/*will need to update path with params. ex/ path="/user/:id">*/}
               <UserProfile />
             </Route>
             <Route path="/conversations"> {/*will need to plan how to access conversations*/}
