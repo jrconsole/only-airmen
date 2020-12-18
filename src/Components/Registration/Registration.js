@@ -7,14 +7,27 @@ var PORT = 8084
 function Registration() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [location, setLocation] = useState('');
+    const [age, setAge] = useState('');
     let ages = []
     for (let i = 18; i < 130; i++) {
         ages.push(i);
     }
 
-    let locations = {Kirtland: 1, Edwards: 2, Scranton: 3, Moscow: 4}
-    const register = (e) => {
+    let locations = {Kirtland: "1", Edwards: "2", Scranton: "3", Moscow: "4"}
+    let locations_arr = ["Kirtland", "Edwards", "Scranton", "Moscow"]
+    const register = async (e) => {
         e.preventDefault()
+        let loc = locations[location]
+        console.log(loc)
+        await fetch(`http://localhost:${PORT}/registration/new`, 
+        
+        {method: 'POST',  body: JSON.stringify({username:username,password:password,age:age,location:loc}),
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        })
+
     }
 
     return (
@@ -34,11 +47,17 @@ function Registration() {
                      <br/>
                      <label>
                     Age
-                    <select>
+                    <select onChange={(e) => setAge(e.target.value)}>
                         {ages.map((i) => (<option value={i}>{i}</option>))}
-                    </select>
+                    </select >
                      </label>
-
+                     <br/>
+                     <label>
+                        Location
+                        <select onChange={(e) => setLocation(e.target.value)}>
+                            {locations_arr.map(i => (<option value={i}>{i}</option>))}
+                        </select>
+                     </label> 
                      <br/>
                     <input type="submit" value="Submit"/>
                 </form>
@@ -48,12 +67,7 @@ function Registration() {
     );
 }
 
-/*                     <label>
-                        Location
-                        <select>
-                            {locations.map((i) => (<option value={locations[i]}>{i}</option>))}
-                        </select>
-                     </label> */
+
 
 
 

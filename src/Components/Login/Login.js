@@ -2,19 +2,19 @@ import './Login.css';
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
-var PORT = 8080
+var PORT = 8084
 function NewComp() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login = async (e) => {
         e.preventDefault()
-        const studentResponse = await fetch(`http://localhost:${PORT}/auth/login`, 
-                                            {method: 'POST',  body: JSON.stringify({username:username,password:password}),
-                                            headers: {
-                                            'Content-Type': 'application/json'
-                                            },
-                                            credentials: 'include'     
-                                            })
+        await fetch(`http://localhost:${PORT}/auth/login`, 
+                        {method: 'POST',  body: JSON.stringify({username:username,password:password}),
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        credentials: 'include'     
+                        })
     }
 
     const logout = async (e) => {
