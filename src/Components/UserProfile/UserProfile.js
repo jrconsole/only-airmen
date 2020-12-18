@@ -268,7 +268,7 @@ function UserProfile() {
           <td>{profile.username}</td>
           <td>{profile.age}</td>
           <td>{profile.location}</td>
-        </tr>
+        </tr
         {editBar}
         </tbody>
       </table>
