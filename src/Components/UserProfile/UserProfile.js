@@ -260,7 +260,7 @@ function UserProfile() {
   return (
     <>
       <h2>Welcome To {profile.username}'s Profile!</h2>
-      <table>
+      <table class="profile">
         <th>Picture</th><th>Username</th><th>Age</th><th>Location</th>
         <tbody>
         <tr>
