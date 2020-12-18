@@ -4,6 +4,7 @@ import { useState, useEffect, Integer } from 'react';
 import Cookies from 'universal-cookie';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane , faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 
 function Chat() {
   //Renders Chat pages, with all the chats
@@ -47,29 +48,40 @@ function Chat() {
     if(msg.includes(username)){
       msg=msg.replace(username, "me");
     }
-    return (<>{msg}</>)
+    if(msg.length>75){
+      msg=msg.slice(0,75) + "...";
+    }
+    return (<div class="msgPreview">{msg}</div>)
   }
+
+  const history = useHistory();
+  const handleChatClick = (conversation) => {
+    var location = {
+      pathname: "/conversation",
+      state: { 
+        conversation: conversation,
+      }
+
+    }
+    history.push(location);
+  }  
 
   const renderConversations = () => {
     return (
-      <table>
+      <table class="chat">
         {
           conversations.map(conversation => {
             return (
-                  <tr>
-                    <td>
-                      <Link to={`/user/${conversation.receiver_user_id}`}><FontAwesomeIcon icon={faUserCircle} /></Link>
-                    </td>
-                    <td>
-                      <Link to={{
-                                pathname: "/conversation",
-                                state: { conversation: conversation }
-                              }} 
-                            key={conversation.receiver_user_id}>{conversation.receiver_username}</Link>
-                      <br/>
-                      {displayLastMsg(conversation.chat_log)}
-                    </td>
-                  </tr>
+              <tr>
+                <td width="5%">
+                  <Link to={`/user/${conversation.receiver_user_id}`}><FontAwesomeIcon icon={faUserCircle} class="profileIcon"/></Link>
+                </td>
+                <td width="95%" class="hover" onClick={()=> handleChatClick(conversation)}>
+                  <b>{conversation.receiver_username}</b>
+                  <br/>
+                  {displayLastMsg(conversation.chat_log)}
+                </td>
+              </tr>
             );})
         }
       </table>
@@ -80,10 +92,10 @@ function Chat() {
    var existingReceiversIds = conversations.map(c => c.receiver_user_id);
    return (
     <>
-      <h3>Start a new chat</h3>
+      <h2>New Chat</h2>
       <label>To:</label>
-      <select value={value} onChange={(e) => setValue(e.currentTarget.value)}>
-        <option value={null}> {""} </option>
+      <select class='selectRecipient' value={value} onChange={(e) => setValue(e.currentTarget.value)}>
+        <option value={null} selected disabled hidden>Recipient</option>        
         {users.map(user => {
           if(user.user_id != user_id && !existingReceiversIds.includes(user.user_id)){
             return (
@@ -94,10 +106,9 @@ function Chat() {
           }
         })}
       </select> 
-      <label>Message:</label>
       {userInput}
       <span onClick={handleStartNewChat}>
-        <FontAwesomeIcon icon={faPaperPlane} />
+        <FontAwesomeIcon icon={faPaperPlane} class="sendIcon"/>
       </span>
     </>
    )
@@ -105,12 +116,12 @@ function Chat() {
 
  function useInput({ type }) {
    const [value, setValue] = useState("");
-   const input = <input value={value} onChange={e => setValue(e.target.value)} type={type} />;
+   const input = <input value={value} placeholder="Enter Message" class="msgInput" onChange={e => setValue(e.target.value)} type={type} />;
    return [value, input];
  }
 
  const handleStartNewChat = async (e) =>{
-   if(value == ""){
+   if(value == null){
      alert("Please choose a recipient")
    } else {
       const msg = `${username}: ${addToLog}\n`
@@ -133,9 +144,8 @@ function Chat() {
       {renderConversations()}
       <br />
       {renderStartNewChat()}
-      <br/><br />
+      <br/><br /><br/><br />
       <Link to="/search"><button>Search</button></Link>
-      <br/><br />
       <Link to={`/user/${user_id}`}><button>My Profile</button></Link>
     </>
   );

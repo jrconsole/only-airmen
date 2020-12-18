@@ -2,7 +2,7 @@ import './Conversation.css';
 import { Link, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faUserCircle, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 function Conversation() {
 
@@ -29,13 +29,35 @@ function Conversation() {
     if(details.chat_log){
       var chat_log = details.chat_log;
       var messages = chat_log.split('\n')
-      return messages.map(m => {
-        var displayM = m;
-        if (m.includes(my_username)){
-          displayM = m.replace(my_username, "me")
-        }
-        return (<>{displayM}<br></br></>);
-      })
+      return (
+        <table class='messages'>
+          {
+            messages.map(m => {
+              if(m==""){
+                return;
+              }
+              var displayM = m.split(": ")[1];
+              if (m.includes(my_username)){
+                return(
+                  <tr>
+                    <td class="msgUsername" width="5%">me:</td>
+                    <td >{displayM}</td>
+                  </tr>
+                )
+              } else{
+                return (
+                  <tr>
+                    <td width="5%">
+                      <Link to={`/user/${receiver_user_id}`}><FontAwesomeIcon icon={faUserCircle} class="profileIcon"/></Link>
+                    </td>
+                    <td>{displayM}</td>
+                  </tr>
+                );
+              }
+            })
+          }
+        </table>
+      )
     }
   }
 
@@ -44,7 +66,7 @@ function Conversation() {
       <>
       {userInput}
       <span onClick={handleSendMsg}>
-        <FontAwesomeIcon icon={faPaperPlane} />
+        <FontAwesomeIcon icon={faPaperPlane} class="sendIcon"/>
       </span>
       </>
     )
@@ -52,11 +74,16 @@ function Conversation() {
   
   function useInput({ type }) {
     const [value, setValue] = useState("");
-    const input = <input value={value} onChange={e => setValue(e.target.value)} type={type} />;
+    const input = <input value={value} class='msgInput' placeholder={"Enter Message"} onChange={e => setValue(e.target.value)} type={type} />;
     return [value, input];
   }
   
   const handleSendMsg = async (e) =>{
+    if(addToLog==""){
+      alert("Please input a message");
+      return;
+    }
+
     const msg = `${my_username}: ${addToLog}\n`
     const response = await fetch(`http://localhost:8080/conversations/${conversation_id}`, {
      method: 'POST',
@@ -68,12 +95,13 @@ function Conversation() {
 
   return (
     <>
-      <Link to="/conversations"><FontAwesomeIcon icon={faArrowLeft}/></Link>
-      <Link to={`/user/${receiver_user_id}`}><FontAwesomeIcon icon={faUserCircle} /></Link>
-      <b>{receiver_username}</b>
-      <br/><br/>
+      <br/>
+      <header>{receiver_username}</header>
+      <br/>
       {renderChatLog()}
       {renderSendMessage()}
+      <br/><br/>
+      <Link to={`/conversations`}><button>Chats</button></Link>
       <br/><br/>
     </>
   );
