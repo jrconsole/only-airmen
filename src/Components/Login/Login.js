@@ -1,9 +1,11 @@
 import './Login.css';
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 var PORT = 8084
 function NewComp() {
+    let history = useHistory();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login = async (e) => {
@@ -15,6 +17,10 @@ function NewComp() {
                         },
                         credentials: 'include'     
                         })
+        let cookie = new Cookies(); 
+        let uid = cookie.get("sessionInfo").split("_")[0]
+        history.push(`/user/${uid}`)
+
     }
 
     const logout = async (e) => {
