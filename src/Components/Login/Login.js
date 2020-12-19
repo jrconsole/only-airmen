@@ -33,7 +33,11 @@ function NewComp() {
 
     return (
         <>
-        <h1>Login</h1>
+        <br/><br/>
+        <h1>OnlyAirmen</h1>
+        <h2><em>find your boo in the big blue</em></h2>
+        <br/>
+        <h2>Login</h2>
               <div>
                   <Link to="/registration">Registration</Link>
                 <form onSubmit={login}>
