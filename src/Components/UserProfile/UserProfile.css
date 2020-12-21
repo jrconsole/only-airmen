@@ -37,18 +37,18 @@
   }
 }
 
-table, th, td {
+.profile, th, td {
   border: 1px solid black;
   padding: 8px;
 }
 
-table {
+.profile {
   border-collapse: collapse;
 }
 
-table tr:nth-child(even){background-color: #f2f2f2;}
+.profile tr:nth-child(even){background-color: #f2f2f2;}
 
-table tr:hover {background-color: #ddd;}
+.profile tr:hover {background-color: #ddd;}
 
 .profile th {
   padding-top: 12px;
