@@ -18,8 +18,11 @@ function NewComp() {
                         credentials: 'include'     
                         })
         let cookie = new Cookies(); 
-        let uid = cookie.get("sessionInfo").split("_")[0]
-        history.push(`/user/${uid}`)
+        let uid = cookie.get("sessionInfo")
+        if (uid !== undefined) {
+            uid = uid.split("_")[0]
+            history.push(`/user/${uid}`)
+        }
 
     }
 

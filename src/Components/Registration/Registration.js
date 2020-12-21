@@ -1,10 +1,12 @@
 import './Registration.css';
 import React, { useState } from 'react';
+import { Link, useHistory } from "react-router-dom";
 
 
 
 var PORT = 8084
 function Registration() {
+    let history = useHistory();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [location, setLocation] = useState('');
@@ -19,7 +21,6 @@ function Registration() {
     const register = async (e) => {
         e.preventDefault()
         let loc = locations[location]
-        console.log(loc)
         await fetch(`http://localhost:${PORT}/registration/new`, 
         
         {method: 'POST',  body: JSON.stringify({username:username,password:password,age:age,location:loc}),
@@ -27,6 +28,7 @@ function Registration() {
         'Content-Type': 'application/json'
         },
         })
+        history.push("/");
 
     }
 
@@ -47,14 +49,14 @@ function Registration() {
                      <br/>
                      <label>
                     Age
-                    <select onChange={(e) => setAge(e.target.value)}>
+                    <select value="25" onChange={(e) => setAge(e.target.value)}>
                         {ages.map((i) => (<option value={i}>{i}</option>))}
                     </select >
                      </label>
                      <br/>
                      <label>
                         Location
-                        <select onChange={(e) => setLocation(e.target.value)}>
+                        <select value="Kirtland" onChange={(e) => setLocation(e.target.value)}>
                             {locations_arr.map(i => (<option value={i}>{i}</option>))}
                         </select>
                      </label> 
