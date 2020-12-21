@@ -18,8 +18,11 @@ function NewComp() {
                         credentials: 'include'     
                         })
         let cookie = new Cookies(); 
-        let uid = cookie.get("sessionInfo").split("_")[0]
-        history.push(`/user/${uid}`)
+        let uid = cookie.get("sessionInfo")
+        if (uid !== undefined) {
+            uid = uid.split("_")[0]
+            history.push(`/user/${uid}`)
+        }
 
     }
 
@@ -34,8 +37,8 @@ function NewComp() {
     return (
         <>
         <br/><br/>
-        <h1>OnlyAirmen</h1>
-        <h2><em>find your boo in the big blue</em></h2>
+        <h1>OnlyGuardians</h1>
+        <h2><em>Find the guardian to your &#9829;</em></h2>
         <br/>
         <h2>Login</h2>
               <div>
