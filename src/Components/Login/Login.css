@@ -25,8 +25,17 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: pink;
 }
+
+h2 {
+	color: pink;
+}
+
+h1 {
+	color: pink;
+}
+
 
 @keyframes App-logo-spin {
   from {

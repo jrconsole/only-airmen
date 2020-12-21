@@ -34,8 +34,8 @@ function NewComp() {
     return (
         <>
         <br/><br/>
-        <h1>OnlyAirmen</h1>
-        <h2><em>find your boo in the big blue</em></h2>
+        <h1>OnlyGuardians</h1>
+        <h2><em>Find the guardian to your &#9829;</em></h2>
         <br/>
         <h2>Login</h2>
               <div>
